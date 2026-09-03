@@ -1,0 +1,122 @@
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(251, 247, 239, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s var(--ease-standard), box-shadow 0.3s var(--ease-standard);
+}
+
+.site-header.is-scrolled {
+  border-bottom-color: rgba(30, 61, 43, 0.12);
+  box-shadow: 0 10px 24px -20px rgba(30, 61, 43, 0.5);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 1.1rem;
+}
+
+.navbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-forest);
+}
+
+.navbar__brand img {
+  height: 38px;
+  width: auto;
+  border-radius: 50%;
+}
+
+.navbar__mark {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+}
+
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.navbar__links a {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--color-ink);
+  position: relative;
+  padding-block: 0.3rem;
+}
+
+.navbar__links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background: var(--color-gold);
+  transition: width 0.25s var(--ease-standard);
+}
+
+.navbar__links a:hover::after,
+.navbar__links a.is-active::after {
+  width: 100%;
+}
+
+.navbar__links a.is-active {
+  color: var(--color-forest);
+  font-weight: 600;
+}
+
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar__toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 42px;
+  height: 42px;
+  border: var(--border-hairline);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  cursor: pointer;
+}
+
+.navbar__toggle span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--color-forest);
+  margin-inline: auto;
+  transition: transform 0.25s var(--ease-standard), opacity 0.25s var(--ease-standard);
+}
+
+.navbar__toggle[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.navbar__toggle[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar__toggle[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.navbar__mobile-panel {
+  display: none;
+}

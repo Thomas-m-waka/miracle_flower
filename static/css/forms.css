@@ -1,0 +1,113 @@
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+}
+
+.form-grid .form-field--full {
+  grid-column: 1 / -1;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: var(--space-sm);
+}
+
+.form-field label {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--color-forest);
+}
+
+.form-field input,
+.form-field textarea {
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  padding: 0.85rem 1rem;
+  border: var(--border-hairline);
+  border-radius: 10px;
+  background: var(--color-white);
+  color: var(--color-ink);
+  transition: border-color 0.2s var(--ease-standard), box-shadow 0.2s var(--ease-standard);
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(180, 137, 79, 0.18);
+  outline: none;
+}
+
+.form-field textarea {
+  resize: vertical;
+  min-height: 130px;
+}
+
+.form-field .field-error {
+  color: var(--color-danger);
+  font-size: var(--fs-xs);
+}
+
+.form-field .field-hint {
+  color: var(--color-ink-soft);
+  font-size: var(--fs-xs);
+}
+
+.form-field.has-error input,
+.form-field.has-error textarea {
+  border-color: var(--color-danger);
+}
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: var(--space-lg);
+  align-items: flex-start;
+}
+
+.contact-info {
+  background: var(--color-forest);
+  color: rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-soft);
+  padding: var(--space-lg);
+}
+
+.contact-info h2 {
+  color: var(--color-white);
+}
+
+.contact-info__list {
+  margin-top: var(--space-md);
+}
+
+.contact-info__list li {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: var(--space-sm);
+  font-size: var(--fs-sm);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.contact-info__list strong {
+  display: block;
+  color: var(--color-white);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.15rem;
+}
+
+.contact-form-card {
+  background: var(--color-white);
+  border-radius: var(--radius-soft);
+  border: var(--border-hairline);
+  padding: var(--space-lg);
+}
+
+.form-submitting {
+  opacity: 0.7;
+  pointer-events: none;
+}

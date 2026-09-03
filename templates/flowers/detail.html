@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ flower.name }} — {{ site_settings.business_name|default:"Miracle Flowers" }}{% endblock %}
+{% block body_class %}flower-detail-page{% endblock %}
+
+{% block meta_description %}{{ flower.short_description }}{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/detail_flowers.css' %}" />
+{% endblock %}
+
+{% block content %}
+
+<section class="page-banner container">
+  <div class="page-banner__crumbs">
+    <a href="{% url 'core:home' %}">Home</a> / <a href="{% url 'flowers:catalog' %}">Flowers</a> / {{ flower.name }}
+  </div>
+</section>
+
+<section class="section section--tight container">
+  <div class="flower-detail">
+    <!-- Left column: Gallery -->
+    <div class="flower-detail__gallery">
+      <div class="flower-detail__gallery-main">
+        <img id="mainFlowerImage" src="{{ flower.main_image.url }}" alt="{{ flower.name }}" />
+      </div>
+      {% if flower.images.all %}
+        <div class="flower-detail__thumbs">
+          <img src="{{ flower.main_image.url }}" alt="{{ flower.name }} — main view" class="is-active" data-main-swap data-full="{{ flower.main_image.url }}" />
+          {% for img in flower.images.all %}
+            <img src="{{ img.image.url }}" alt="{{ img.caption|default:flower.name }}" data-main-swap data-full="{{ img.image.url }}" />
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Right column: Details -->
+    <div class="flower-detail__info">
+      {% if flower.category %}
+        <a href="{{ flower.category.get_absolute_url }}" class="flower-detail__category">{{ flower.category.name }}</a>
+      {% endif %}
+      <h1 class="flower-detail__title">{{ flower.name }}</h1>
+
+      <div class="flower-detail__price-row">
+        <span class="flower-detail__price">KSh {{ flower.price }}</span>
+        {% if flower.available %}
+          <span class="badge badge--available">Available</span>
+        {% else %}
+          <span class="badge badge--unavailable">Sold Out</span>
+        {% endif %}
+      </div>
+
+      <p class="flower-detail__desc">{{ flower.description }}</p>
+
+      <div class="flower-detail__actions">
+        <a href="{% url 'core:contact' %}?subject=Enquiry about {{ flower.name|urlencode }}" class="btn btn-primary">Contact Us About This Flower</a>
+        <a href="{% url 'flowers:catalog' %}" class="btn btn-outline">Back to Flowers</a>
+      </div>
+
+      <p class="flower-detail__note">Online ordering isn't available yet — reach out and our florists will help arrange delivery details with you directly.</p>
+    </div>
+  </div>
+
+  {% if related_flowers %}
+    <div class="related-flowers">
+      <div class="section-head">
+        <span class="eyebrow-rule" aria-hidden="true"></span>
+        <h2>You May Also Like</h2>
+      </div>
+      <div class="grid grid--4">
+        {% for related in related_flowers %}
+          <article class="card">
+            <a href="{{ related.get_absolute_url }}" class="card__media">
+              <img src="{{ related.main_image.url }}" alt="{{ related.name }}" loading="lazy" />
+            </a>
+            <div class="card__body">
+              {% if related.category %}<span class="card__eyebrow">{{ related.category.name }}</span>{% endif %}
+              <h3 class="card__title"><a href="{{ related.get_absolute_url }}">{{ related.name }}</a></h3>
+              <div class="card__meta">
+                <span class="card__price">KSh {{ related.price }}</span>
+              </div>
+              <a href="{{ related.get_absolute_url }}" class="btn btn-outline btn-block">View Details</a>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var main = document.getElementById("mainFlowerImage");
+    var thumbs = document.querySelectorAll("[data-main-swap]");
+    thumbs.forEach(function (thumb) {
+      thumb.addEventListener("click", function () {
+        main.src = thumb.getAttribute("data-full");
+        thumbs.forEach(function (t) { t.classList.remove("is-active"); });
+        thumb.classList.add("is-active");
+      });
+    });
+  });
+</script>
+{% endblock %}

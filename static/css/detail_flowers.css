@@ -1,0 +1,397 @@
+.flower-detail,
+.flower-detail__gallery,
+.flower-detail__gallery-main,
+.flower-detail__thumbs,
+.flower-detail__info,
+.flower-detail__category,
+.flower-detail__title,
+.flower-detail__price-row,
+.flower-detail__price,
+.flower-detail__desc,
+.flower-detail__actions,
+.flower-detail__note,
+.related-flowers,
+.section-head,
+.grid,
+.card,
+.card__media,
+.card__body,
+.card__eyebrow,
+.card__title,
+.card__meta,
+.card__price,
+.btn,
+.badge {
+  box-sizing: border-box;
+}
+
+/* ----- Page banner (clean, minimal) ----- */
+.page-banner {
+  padding: 1.8rem 0 0.8rem;
+}
+.page-banner__crumbs {
+  font-size: 0.85rem;
+  color: #7a7a7a;
+}
+.page-banner__crumbs a {
+  color: #7a7a7a;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.page-banner__crumbs a:hover {
+  color: #b34152;
+}
+
+/* ----- Section spacing ----- */
+.section--tight {
+  padding: 0.5rem 0 3.5rem;
+}
+
+/* ----- Flower Detail Layout (two columns) ----- */
+.flower-detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  margin: 2rem 0 3rem;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .flower-detail {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* ----- Gallery (left column) ----- */
+.flower-detail__gallery {
+  position: sticky;
+  top: 2rem;
+}
+@media (max-width: 860px) {
+  .flower-detail__gallery {
+    position: static;
+  }
+}
+
+.flower-detail__gallery-main {
+  border-radius: 24px;
+  overflow: hidden;
+  background: #f3f0eb;
+  aspect-ratio: 1 / 1;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  border: 1px solid #f0ece7;
+}
+.flower-detail__gallery-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.flower-detail__thumbs {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.flower-detail__thumbs img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 16px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  background: #f3f0eb;
+  opacity: 0.7;
+}
+.flower-detail__thumbs img:hover {
+  opacity: 1;
+  transform: scale(1.02);
+}
+.flower-detail__thumbs img.is-active {
+  border-color: #b34152;
+  opacity: 1;
+  box-shadow: 0 4px 12px rgba(179, 65, 82, 0.15);
+}
+@media (max-width: 480px) {
+  .flower-detail__thumbs img {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* ----- Info (right column) ----- */
+.flower-detail__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.flower-detail__category {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9e8b7c;
+  text-decoration: none;
+  background: #f5f0eb;
+  padding: 0.3rem 1rem;
+  border-radius: 40px;
+  align-self: flex-start;
+  transition: all 0.2s;
+}
+.flower-detail__category:hover {
+  background: #b34152;
+  color: #fff;
+}
+
+.flower-detail__title {
+  font-size: 2.6rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #1e1e1e;
+  margin: 0.2rem 0 0.2rem;
+  line-height: 1.2;
+}
+@media (max-width: 640px) {
+  .flower-detail__title {
+    font-size: 2rem;
+  }
+}
+
+.flower-detail__price-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 0.4rem 0 0.6rem;
+}
+
+.flower-detail__price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e1e1e;
+  letter-spacing: -0.01em;
+}
+@media (max-width: 480px) {
+  .flower-detail__price {
+    font-size: 1.6rem;
+  }
+}
+
+.badge {
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.25rem 1rem;
+  border-radius: 30px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.badge--available {
+  background: #e5f4e9;
+  color: #1c6e44;
+}
+.badge--unavailable {
+  background: #f2e6e6;
+  color: #9a5a5a;
+}
+
+.flower-detail__desc {
+  font-size: 1.05rem;
+  color: #444;
+  line-height: 1.7;
+  margin: 0.4rem 0 0.6rem;
+  max-width: 560px;
+}
+
+.flower-detail__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin: 0.6rem 0 0.4rem;
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  padding: 0.7rem 1.6rem;
+  border-radius: 60px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+.btn-primary {
+  background: #b34152;
+  border-color: #b34152;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(179, 65, 82, 0.2);
+}
+.btn-primary:hover {
+  background: #9c3847;
+  border-color: #9c3847;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(179, 65, 82, 0.25);
+}
+.btn-outline {
+  background: transparent;
+  border-color: #d0c6bc;
+  color: #3d3d3d;
+}
+.btn-outline:hover {
+  background: #b34152;
+  border-color: #b34152;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(179, 65, 82, 0.15);
+}
+
+.flower-detail__note {
+  font-size: 0.9rem;
+  color: #777;
+  background: #f8f4f0;
+  padding: 0.8rem 1.2rem;
+  border-radius: 16px;
+  margin-top: 0.6rem;
+  border-left: 3px solid #b34152;
+  line-height: 1.5;
+}
+
+/* ----- Related Flowers Section ----- */
+.related-flowers {
+  margin-top: 4rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid #eae6e1;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+.section-head h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #1e1e1e;
+  letter-spacing: -0.01em;
+}
+.eyebrow-rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, #e0d9d2, transparent);
+}
+
+/* ----- Grid for related flowers ----- */
+.grid--4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+@media (max-width: 1024px) {
+  .grid--4 { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 760px) {
+  .grid--4 { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+}
+@media (max-width: 480px) {
+  .grid--4 { grid-template-columns: 1fr 1fr; gap: 1rem; }
+}
+
+/* ----- Card (reused from catalog, but refined) ----- */
+.card {
+  background: #fff;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.02), 0 2px 6px rgba(0,0,0,0.02);
+  transition: transform 0.25s ease, box-shadow 0.3s ease;
+  border: 1px solid #f0ece7;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.06), 0 6px 12px rgba(0,0,0,0.03);
+  border-color: #e4dbd3;
+}
+
+.card__media {
+  display: block;
+  overflow: hidden;
+  background: #f3f0eb;
+  aspect-ratio: 1 / 1;
+}
+.card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.card:hover .card__media img {
+  transform: scale(1.04);
+}
+
+.card__body {
+  padding: 1.1rem 1.1rem 1.3rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card__eyebrow {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #9e8b7c;
+  margin-bottom: 0.2rem;
+}
+
+.card__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  line-height: 1.3;
+}
+.card__title a {
+  text-decoration: none;
+  color: #1e1e1e;
+  transition: color 0.15s;
+}
+.card__title a:hover {
+  color: #b34152;
+}
+
+.card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.card__price {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #2c2c2c;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+/* ----- Container (align with base.html) ----- */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+@media (max-width: 640px) {
+  .container { padding: 0 1.2rem; }
+}

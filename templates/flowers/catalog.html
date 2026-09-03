@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Our Flowers — {{ site_settings.business_name|default:"Miracle Flowers" }}{% endblock %}
+{% block body_class %}catalog-page{% endblock %}
+
+{% block meta_description %}Browse the full Miracle Flowers catalog: roses, bouquets, wedding flowers, birthday flowers, and more, hand-arranged for every occasion.{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/catalog_flowers.css' %}" />
+{% endblock %}
+
+{% block content %}
+
+<section class="page-banner container">
+  <div class="page-banner__crumbs"><a href="{% url 'core:home' %}">Home</a> / Flowers</div>
+  <h1>Our Flowers</h1>
+  <p>Fresh, hand-arranged flowers for weddings, birthdays, graduations, and every moment worth celebrating.</p>
+</section>
+
+<section class="section section--tight container">
+  <div class="catalog-toolbar">
+    <div class="filter-pills">
+      <a href="{% url 'flowers:catalog' %}" class="filter-pill {% if not active_category %}is-active{% endif %}">All</a>
+      {% for category in categories %}
+        <a href="?category={{ category.slug }}" class="filter-pill {% if active_category.slug == category.slug %}is-active{% endif %}">{{ category.name }}</a>
+      {% endfor %}
+    </div>
+    <span class="catalog-count">{{ page_obj.paginator.count }} flower{{ page_obj.paginator.count|pluralize }}</span>
+  </div>
+
+  {% if flowers %}
+    <div class="grid grid--4">
+      {% for flower in flowers %}
+        <article class="card flower-card">
+          <a href="{{ flower.get_absolute_url }}" class="card__media">
+            <img src="{{ flower.main_image.url }}" alt="{{ flower.name }}{% if flower.category %} — {{ flower.category.name }}{% endif %}" loading="lazy" />
+          </a>
+          <div class="card__body flower-card__body">
+            {% if flower.category %}<span class="card__eyebrow flower-card__eyebrow">{{ flower.category.name }}</span>{% endif %}
+            <h3 class="card__title flower-card__title"><a href="{{ flower.get_absolute_url }}">{{ flower.name }}</a></h3>
+            <p class="card__desc flower-card__desc">{{ flower.short_description }}</p>
+            <div class="card__meta flower-card__meta">
+              <span class="card__price flower-card__price">KSh {{ flower.price }}</span>
+              {% if flower.available %}
+                <span class="badge badge--available">Available</span>
+              {% else %}
+                <span class="badge badge--unavailable">Sold Out</span>
+              {% endif %}
+            </div>
+            <a href="{{ flower.get_absolute_url }}" class="btn btn-outline btn-block">View Details</a>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+
+    {% if page_obj.paginator.num_pages > 1 %}
+      <nav class="pagination" aria-label="Flower catalog pages">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}{% if active_category %}&category={{ active_category.slug }}{% endif %}" aria-label="Previous page">&lsaquo;</a>
+        {% endif %}
+        {% for num in page_obj.paginator.page_range %}
+          {% if num == page_obj.number %}
+            <span class="is-current" aria-current="page">{{ num }}</span>
+          {% else %}
+            <a href="?page={{ num }}{% if active_category %}&category={{ active_category.slug }}{% endif %}">{{ num }}</a>
+          {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}{% if active_category %}&category={{ active_category.slug }}{% endif %}" aria-label="Next page">&rsaquo;</a>
+        {% endif %}
+      </nav>
+    {% endif %}
+  {% else %}
+    <div class="empty-state">
+      <p>Our flower collection is being updated. Please check back soon.</p>
+    </div>
+  {% endif %}
+</section>
+
+{% endblock %}

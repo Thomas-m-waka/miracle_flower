@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Contact Us — {{ site_settings.business_name|default:"Miracle Flowers" }}{% endblock %}
+{% block body_class %}contact-page{% endblock %}
+
+{% block meta_description %}Get in touch with Miracle Flowers by phone, email, or the contact form for enquiries about flowers and events.{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/contact_page.css' %}" />
+{% endblock %}
+
+{% block content %}
+
+<section class="page-banner container">
+  <div class="page-banner__crumbs"><a href="{% url 'core:home' %}">Home</a> / Contact</div>
+  <h1>Contact Us</h1>
+  <p>Have a question about a flower, an event, or something special in mind? We'd love to hear from you.</p>
+</section>
+
+<section class="section section--tight container">
+  <div class="contact-layout">
+    <div class="contact-info">
+      <h2>Reach Us Directly</h2>
+      <ul class="contact-info__list">
+        <li>
+          <div>
+            <strong>Phone</strong>
+            <span>{{ site_settings.phone_number }}</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Email</strong>
+            <span>{{ site_settings.email }}</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Location</strong>
+            <span>{{ site_settings.address }}</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Opening Hours</strong>
+            <span>{{ site_settings.opening_hours }}</span>
+          </div>
+        </li>
+      </ul>
+      {% if site_settings.facebook_url or site_settings.instagram_url or site_settings.whatsapp_number %}
+        <div class="footer__social">
+          {% if site_settings.facebook_url %}<a href="{{ site_settings.facebook_url }}" aria-label="Facebook" target="_blank" rel="noopener">f</a>{% endif %}
+          {% if site_settings.instagram_url %}<a href="{{ site_settings.instagram_url }}" aria-label="Instagram" target="_blank" rel="noopener">ig</a>{% endif %}
+          {% if site_settings.whatsapp_number %}<a href="https://wa.me/{{ site_settings.whatsapp_number }}" aria-label="WhatsApp" target="_blank" rel="noopener">wa</a>{% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="contact-form-card">
+      <h2>Send a Message</h2>
+      <form method="post" data-contact-form novalidate>
+        {% csrf_token %}
+        <div class="form-grid">
+          <div class="form-field {% if form.name.errors %}has-error{% endif %}">
+            <label for="{{ form.name.id_for_label }}">Name</label>
+            {{ form.name }}
+            {% for error in form.name.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+          </div>
+          <div class="form-field {% if form.email.errors %}has-error{% endif %}">
+            <label for="{{ form.email.id_for_label }}">Email</label>
+            {{ form.email }}
+            {% for error in form.email.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+          </div>
+          <div class="form-field {% if form.phone.errors %}has-error{% endif %}">
+            <label for="{{ form.phone.id_for_label }}">Phone</label>
+            {{ form.phone }}
+            <span class="field-hint">Optional</span>
+          </div>
+          <div class="form-field {% if form.subject.errors %}has-error{% endif %}">
+            <label for="{{ form.subject.id_for_label }}">Subject</label>
+            {{ form.subject }}
+            {% for error in form.subject.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+          </div>
+          <div class="form-field form-field--full {% if form.message.errors %}has-error{% endif %}">
+            <label for="{{ form.message.id_for_label }}">Message</label>
+            {{ form.message }}
+            {% for error in form.message.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/forms.js' %}"></script>
+{% endblock %}

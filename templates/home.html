@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ site_settings.business_name|default:"Miracle Flowers" }} — Fresh Flowers for Every Occasion{% endblock %}
+{% block body_class %}home-page{% endblock %}
+
+{% block meta_description %}Miracle Flowers creates beautiful floral arrangements and unforgettable event experiences for weddings, birthdays, graduations, and everyday moments in Nairobi.{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/home_page.css' %}" />
+{% endblock %}
+
+{% block content %}
+
+<section class="hero container">
+  <div class="hero__grid">
+    <div>
+      <div class="hero__eyebrow">
+        <span aria-hidden="true">✿</span>
+        <span>Nairobi's Boutique Florist</span>
+      </div>
+      <h1 class="hero__title">{{ site_settings.business_name|default:"Miracle Flowers" }}</h1>
+      <p class="hero__tagline">{{ site_settings.hero_tagline }}</p>
+      <p class="hero__text">{{ site_settings.hero_subtext }}</p>
+      <div class="hero__actions">
+        <a href="{% url 'flowers:catalog' %}" class="btn btn-primary">Explore Our Flowers</a>
+        <a href="{% url 'events:list' %}" class="btn btn-outline">View Events</a>
+      </div>
+    </div>
+
+    <div class="hero__art">
+      <div class="hero__art-frame">
+        {% if site_settings.hero_image %}
+          <img src="{{ site_settings.hero_image.url }}" alt="A hand-tied bouquet of fresh seasonal flowers from Miracle Flowers" />
+        {% else %}
+          <img src="{% static 'images/placeholder-hero.svg' %}" alt="A hand-tied bouquet of fresh seasonal flowers from Miracle Flowers" />
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section container" id="featured-flowers">
+  <div class="featured-header">
+    <div class="section-head">
+      <span class="eyebrow-rule" aria-hidden="true"></span>
+      <h2>Featured Flowers</h2>
+      <p>A hand-picked selection of our most-loved arrangements, refreshed regularly by our florists.</p>
+    </div>
+    <a href="{% url 'flowers:catalog' %}" class="btn btn-outline">See All Flowers</a>
+  </div>
+
+  {% if featured_flowers %}
+    <div class="grid grid--3">
+      {% for flower in featured_flowers %}
+        <article class="card">
+          <a href="{{ flower.get_absolute_url }}" class="card__media">
+            <img src="{{ flower.main_image.url }}" alt="{{ flower.name }}{% if flower.category %} — {{ flower.category.name }}{% endif %}" loading="lazy" />
+          </a>
+          <div class="card__body">
+            {% if flower.category %}<span class="card__eyebrow flower-card__eyebrow">{{ flower.category.name }}</span>{% endif %}
+            <h3 class="card__title flower-card__title"><a href="{{ flower.get_absolute_url }}">{{ flower.name }}</a></h3>
+            <p class="card__desc flower-card__desc">{{ flower.short_description }}</p>
+            <div class="card__meta flower-card__meta">
+              <span class="card__price flower-card__price">KSh {{ flower.price }}</span>
+              {% if flower.available %}
+                <span class="badge badge--available">Available</span>
+              {% else %}
+                <span class="badge badge--unavailable">Sold Out</span>
+              {% endif %}
+            </div>
+            <a href="{{ flower.get_absolute_url }}" class="btn btn-outline btn-block">View Details</a>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <p>Our flower collection is being updated. Please check back soon.</p>
+    </div>
+  {% endif %}
+</section>
+
+<section class="section section--alt">
+  <div class="container">
+    <div class="about-teaser">
+      <div>
+        <h2>Flowers, chosen with intention</h2>
+        <p>{{ site_settings.about_text|truncatewords:45 }}</p>
+        <a href="{% url 'core:about' %}" class="btn btn-gold">Our Story</a>
+      </div>
+      <div class="about-teaser__stats">
+        <div class="about-teaser__stat">
+          <strong>10+</strong>
+          <span>Years arranging flowers</span>
+        </div>
+        <div class="about-teaser__stat">
+          <strong>500+</strong>
+          <span>Events served</span>
+        </div>
+        <div class="about-teaser__stat">
+          <strong>50+</strong>
+          <span>Flower varieties</span>
+        </div>
+        <div class="about-teaser__stat">
+          <strong>7</strong>
+          <span>Days a week fresh</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section container">
+  <div class="section-head">
+    <span class="eyebrow-rule" aria-hidden="true"></span>
+    <h2>Upcoming Events</h2>
+    <p>Join us at these upcoming celebrations, or let us know if you'd like Miracle Flowers at yours.</p>
+  </div>
+
+  {% if upcoming_events %}
+    <div class="event-strip">
+      {% for event in upcoming_events %}
+        <article class="event-card">
+          <div class="event-card__media">
+            <img src="{{ event.featured_image.url }}" alt="{{ event.title }}" loading="lazy" />
+          </div>
+          <div class="event-card__body">
+            <span class="event-card__date">{{ event.event_date|date:"M j, Y" }}</span>
+            <h3 class="event-card__title">{{ event.title }}</h3>
+            <p class="event-card__location">{{ event.location }}</p>
+            <a href="{{ event.get_absolute_url }}" class="event-card__link">View Event &rsaquo;</a>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <p>No upcoming events at the moment. Please check back soon.</p>
+    </div>
+  {% endif %}
+</section>
+
+<section class="section section--alt">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-rule" aria-hidden="true"></span>
+      <h2>From Recent Celebrations</h2>
+      <p>A glimpse of arrangements and events our team has recently brought to life.</p>
+    </div>
+
+    {% if recent_photos %}
+      <div class="gallery-strip">
+        {% for photo in recent_photos %}
+          <a href="{% url 'core:gallery' %}">
+            <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:photo.event.title }}" loading="lazy" />
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <p>Our gallery is coming soon.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section container">
+  <div class="cta-banner">
+    <h2>Ready to brighten a moment?</h2>
+    <p>Browse our collection or reach out and our florists will help you find the perfect arrangement.</p>
+    <div class="cta-banner__actions">
+      <a href="{% url 'flowers:catalog' %}" class="btn btn-primary">Explore Our Flowers</a>
+      <a href="{% url 'core:contact' %}" class="btn btn-outline">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

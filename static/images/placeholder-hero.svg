@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F2E9D8"/>
+      <stop offset="100%" stop-color="#E7B8B4"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <g opacity="0.85">
+    <circle cx="400" cy="360" r="90" fill="#E7B8B4"/>
+    <circle cx="300" cy="440" r="70" fill="#B4894F"/>
+    <circle cx="500" cy="440" r="70" fill="#2F5540"/>
+    <circle cx="400" cy="480" r="65" fill="#1E3D2B"/>
+    <circle cx="400" cy="380" r="30" fill="#FBF7EF"/>
+  </g>
+  <text x="400" y="700" text-anchor="middle" font-family="serif" font-size="34" fill="#1E3D2B">Miracle Flowers</text>
+  <text x="400" y="740" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#4A5347">Add a hero image in Django Admin</text>
+</svg>

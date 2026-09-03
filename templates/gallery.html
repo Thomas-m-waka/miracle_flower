@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Gallery — {{ site_settings.business_name|default:"Miracle Flowers" }}{% endblock %}
+{% block body_class %}gallery-page{% endblock %}
+
+{% block meta_description %}Browse photos of Miracle Flowers arrangements, weddings, decorations, and special events.{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/gallery_page.css' %}" />
+{% endblock %}
+
+{% block content %}
+
+<section class="page-banner container">
+  <div class="page-banner__crumbs"><a href="{% url 'core:home' %}">Home</a> / Gallery</div>
+  <h1>Gallery</h1>
+  <p>A look at our arrangements, weddings, decorations, and special occasions we've had the joy of styling.</p>
+</section>
+
+<section class="section section--tight container">
+  {% if photos or flowers_with_extra_images %}
+    <div class="masonry">
+      {% for photo in photos %}
+        <a href="#" class="masonry__item" data-lightbox-item data-caption="{{ photo.caption|default:photo.event.title }}">
+          <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:photo.event.title }}" data-full="{{ photo.image.url }}" loading="lazy" />
+          <span class="masonry__caption">{{ photo.caption|default:photo.event.title }}</span>
+        </a>
+      {% endfor %}
+      {% for flower in flowers_with_extra_images %}
+        {% for img in flower.images.all %}
+          <a href="#" class="masonry__item" data-lightbox-item data-caption="{{ img.caption|default:flower.name }}">
+            <img src="{{ img.image.url }}" alt="{{ img.caption|default:flower.name }}" data-full="{{ img.image.url }}" loading="lazy" />
+            <span class="masonry__caption">{{ img.caption|default:flower.name }}</span>
+          </a>
+        {% endfor %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <p>Our gallery is coming soon.</p>
+    </div>
+  {% endif %}
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/lightbox.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About Us — {{ site_settings.business_name|default:"Miracle Flowers" }}{% endblock %}
+{% block body_class %}about-page{% endblock %}
+
+{% block meta_description %}Learn about Miracle Flowers, our story, our mission, and why customers trust us for their most important occasions.{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/about_page.css' %}" />
+{% endblock %}
+
+{% block content %}
+
+<section class="page-banner container">
+  <div class="page-banner__crumbs"><a href="{% url 'core:home' %}">Home</a> / About</div>
+  <h1>About {{ site_settings.business_name|default:"Miracle Flowers" }}</h1>
+</section>
+
+<section class="section section--tight container">
+  <div class="section-head">
+    <span class="eyebrow-rule" aria-hidden="true"></span>
+    <h2>Our Story</h2>
+  </div>
+  <div class="about-copy"><p>{{ site_settings.about_text }}</p></div>
+</section>
+
+<section class="section section--tight section--alt">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-rule" aria-hidden="true"></span>
+      <h2>Our Mission</h2>
+    </div>
+    <div class="about-copy"><p>{{ site_settings.mission_text }}</p></div>
+  </div>
+</section>
+
+<section class="section container">
+  <div class="section-head">
+    <span class="eyebrow-rule" aria-hidden="true"></span>
+    <h2>Why Choose {{ site_settings.business_name|default:"Miracle Flowers" }}?</h2>
+  </div>
+
+  {% if features %}
+    <div class="grid grid--3 about-features">
+      {% for feature in features %}
+        <div class="card about-feature-card">
+          <div class="card__body">
+            {% if feature.icon %}<span class="card__eyebrow about-feature-icon">{{ feature.icon }}</span>{% endif %}
+            <h3 class="card__title">{{ feature.title }}</h3>
+            <p class="card__desc">{{ feature.description }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="grid grid--3 about-features">
+      <div class="card about-feature-card"><div class="card__body">
+        <h3 class="card__title">Fresh &amp; Beautiful Flowers</h3>
+        <p class="card__desc">Sourced regularly to keep every arrangement vibrant and long-lasting.</p>
+      </div></div>
+      <div class="card about-feature-card"><div class="card__body">
+        <h3 class="card__title">Creative Arrangements</h3>
+        <p class="card__desc">Thoughtful designs tailored to your occasion and personal style.</p>
+      </div></div>
+      <div class="card about-feature-card"><div class="card__body">
+        <h3 class="card__title">Reliable Service</h3>
+        <p class="card__desc">Consistent quality and communication from enquiry to delivery.</p>
+      </div></div>
+      <div class="card about-feature-card"><div class="card__body">
+        <h3 class="card__title">Special Event Expertise</h3>
+        <p class="card__desc">Weddings, corporate events, and celebrations styled with care.</p>
+      </div></div>
+      <div class="card about-feature-card"><div class="card__body">
+        <h3 class="card__title">Attention to Detail</h3>
+        <p class="card__desc">Every stem, ribbon, and arrangement finished with precision.</p>
+      </div></div>
+    </div>
+  {% endif %}
+</section>
+
+<section class="section container">
+  <div class="cta-banner">
+    <h2>Let's plan something beautiful together</h2>
+    <p>Whether it's a wedding, a birthday, or just because — we'd love to help.</p>
+    <div class="cta-banner__actions">
+      <a href="{% url 'core:contact' %}" class="btn btn-primary">Contact Us</a>
+      <a href="{% url 'flowers:catalog' %}" class="btn btn-outline">Explore Flowers</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

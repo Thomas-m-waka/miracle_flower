@@ -1,0 +1,43 @@
+.about-page .page-banner,
+.about-page .section {
+  position: relative;
+}
+
+.about-page .about-copy {
+  max-width: 68ch;
+  font-size: var(--fs-md);
+  line-height: 1.8;
+}
+
+.about-page .about-copy p {
+  margin-bottom: 0;
+}
+
+.about-page .about-features {
+  margin-top: var(--space-md);
+}
+
+.about-page .about-feature-card {
+  height: 100%;
+}
+
+.about-page .about-feature-icon {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.about-page .about-feature-card .card__desc {
+  margin-bottom: 0;
+}
+
+.about-page .cta-banner {
+  margin-top: var(--space-sm);
+}
+
+@media (max-width: 760px) {
+  .about-page .about-copy {
+    font-size: 1rem;
+  }
+}
