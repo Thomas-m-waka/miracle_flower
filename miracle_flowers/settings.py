@@ -208,3 +208,5 @@ if not DEBUG:
 
     # Proxy / HTTPS detection
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
