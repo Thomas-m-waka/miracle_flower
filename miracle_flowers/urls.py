@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from django.views.static import serve
 
 
 urlpatterns = [
@@ -9,6 +10,7 @@ urlpatterns = [
     path("", include("core.urls")),
     path("flowers/", include("flowers.urls")),
     path("events/", include("events.urls")),
+    path('media/',serve,{'document_root':settings.MEDIA_ROOT}),
 ]
 
 
