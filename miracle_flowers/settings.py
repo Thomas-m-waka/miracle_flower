@@ -2,6 +2,8 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
+import cloudinary
+import cloudinary_storage
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
