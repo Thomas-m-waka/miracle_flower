@@ -1,24 +1,37 @@
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
 import dj_database_url
-import cloudinary
-import cloudinary_storage
+
+
+# ============================================================
+# BASE CONFIGURATION
+# ============================================================
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Load environment variables from .env
 load_dotenv(BASE_DIR / ".env")
 
+
+# ============================================================
+# SECURITY
+# ============================================================
 
 SECRET_KEY = os.environ.get("MIRACLE_FLOWERS_SECRET_KEY")
 
 if not SECRET_KEY:
     raise RuntimeError(
-        "MIRACLE_FLOWERS_SECRET_KEY is not set in the .env file."
+        "MIRACLE_FLOWERS_SECRET_KEY is not set."
     )
 
-DEBUG = os.environ.get("MIRACLE_FLOWERS_DEBUG", "False").lower() == "true"
+DEBUG = (
+    os.environ.get(
+        "MIRACLE_FLOWERS_DEBUG",
+        "False",
+    ).lower()
+    == "true"
+)
 
 ALLOWED_HOSTS = [
     host.strip()
@@ -30,6 +43,10 @@ ALLOWED_HOSTS = [
 ]
 
 
+# ============================================================
+# APPLICATIONS
+# ============================================================
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -37,6 +54,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    # Cloudinary
     "cloudinary",
     "cloudinary_storage",
 
@@ -47,9 +66,14 @@ INSTALLED_APPS = [
 ]
 
 
+# ============================================================
+# MIDDLEWARE
+# ============================================================
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -91,17 +115,21 @@ TEMPLATES = [
 
 
 # ============================================================
-# DATABASE - POSTGRESQL
+# DATABASE
 # ============================================================
 
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL is not set.")
 
 DATABASES = {
-    'default': dj_database_url.parse(
-        os.environ.get('DATABASE_URL')
-       
+    "default": dj_database_url.parse(
+        DATABASE_URL,
+        conn_max_age=600,
+        ssl_require=not DEBUG,
     )
 }
-
 
 
 # ============================================================
@@ -145,7 +173,6 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Africa/Nairobi"
 
 USE_I18N = True
-
 USE_TZ = True
 
 
@@ -168,6 +195,33 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+
+# ============================================================
+# CLOUDINARY
+# ============================================================
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.environ.get("CLOUD_NAME"),
+    "API_KEY": os.environ.get("API_KEY"),
+    "API_SECRET": os.environ.get("API_SECRET"),
+}
+
+
+# ============================================================
+# DJANGO STORAGE
+# ============================================================
+
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+
 # ============================================================
 # DEFAULT PRIMARY KEY
 # ============================================================
@@ -181,22 +235,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_URL = "/admin/login/"
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # ============================================================
 # PRODUCTION SECURITY
 # ============================================================
-#CLOUDINARY SETTINGS 
-
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUD_NAME'),
-    'API_KEY': os.environ.get('API_KEY'),
-    'API_SECRET': os.environ.get('API_SECRET'),
-}
-
-
-
-#CLOUDINARY  STORAGE 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 if not DEBUG:
 
@@ -219,7 +261,8 @@ if not DEBUG:
     # Referrer policy
     SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
-    # Proxy / HTTPS detection
-    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-
-    
+    # Render proxy / HTTPS detection
+    SECURE_PROXY_SSL_HEADER = (
+        "HTTP_X_FORWARDED_PROTO",
+        "https",
+    )
