@@ -44,6 +44,47 @@ ALLOWED_HOSTS = [
 
 
 # ============================================================
+# SETTINGS DEBUG
+# TEMPORARY - REMOVE AFTER THE PROBLEM IS FOUND
+# ============================================================
+
+print("====================================================")
+print("       MIRACLE FLOWERS SETTINGS DEBUG")
+print("====================================================")
+
+print("DEBUG:", DEBUG)
+
+print(
+    "SECRET_KEY exists:",
+    bool(os.environ.get("MIRACLE_FLOWERS_SECRET_KEY"))
+)
+
+print(
+    "DATABASE_URL exists:",
+    bool(os.environ.get("DATABASE_URL"))
+)
+
+print("ALLOWED_HOSTS:", ALLOWED_HOSTS)
+
+print(
+    "CLOUD_NAME exists:",
+    bool(os.environ.get("CLOUD_NAME"))
+)
+
+print(
+    "API_KEY exists:",
+    bool(os.environ.get("API_KEY"))
+)
+
+print(
+    "API_SECRET exists:",
+    bool(os.environ.get("API_SECRET"))
+)
+
+print("====================================================")
+
+
+# ============================================================
 # APPLICATIONS
 # ============================================================
 
@@ -120,16 +161,52 @@ TEMPLATES = [
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
-if not DATABASE_URL:
-    raise RuntimeError("DATABASE_URL is not set.")
+print("====================================================")
+print("              DATABASE DEBUG")
+print("====================================================")
 
-DATABASES = {
-    "default": dj_database_url.parse(
-        DATABASE_URL,
-        conn_max_age=600,
-        ssl_require=not DEBUG,
+print(
+    "DATABASE_URL exists:",
+    bool(DATABASE_URL)
+)
+
+if DATABASE_URL:
+    try:
+        DATABASES = {
+            "default": dj_database_url.parse(
+                DATABASE_URL,
+                conn_max_age=600,
+                ssl_require=not DEBUG,
+            )
+        }
+
+        print("DATABASE CONFIG: SUCCESS")
+        print(
+            "DATABASE ENGINE:",
+            DATABASES["default"].get("ENGINE")
+        )
+        print(
+            "DATABASE NAME:",
+            DATABASES["default"].get("NAME")
+        )
+
+    except Exception as e:
+        print(
+            "DATABASE CONFIG ERROR:",
+            repr(e)
+        )
+        raise
+
+else:
+    print(
+        "DATABASE CONFIG ERROR: DATABASE_URL is missing"
     )
-}
+
+    raise RuntimeError(
+        "DATABASE_URL is not set."
+    )
+
+print("====================================================")
 
 
 # ============================================================
@@ -201,11 +278,33 @@ MEDIA_ROOT = BASE_DIR / "media"
 # CLOUDINARY
 # ============================================================
 
+print("====================================================")
+print("             CLOUDINARY DEBUG")
+print("====================================================")
+
+print(
+    "CLOUD_NAME exists:",
+    bool(os.environ.get("CLOUD_NAME"))
+)
+
+print(
+    "API_KEY exists:",
+    bool(os.environ.get("API_KEY"))
+)
+
+print(
+    "API_SECRET exists:",
+    bool(os.environ.get("API_SECRET"))
+)
+
 CLOUDINARY_STORAGE = {
     "CLOUD_NAME": os.environ.get("CLOUD_NAME"),
     "API_KEY": os.environ.get("API_KEY"),
     "API_SECRET": os.environ.get("API_SECRET"),
 }
+
+print("CLOUDINARY_STORAGE configured")
+print("====================================================")
 
 
 # ============================================================
@@ -214,12 +313,35 @@ CLOUDINARY_STORAGE = {
 
 STORAGES = {
     "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+        "BACKEND": (
+            "cloudinary_storage.storage."
+            "MediaCloudinaryStorage"
+        ),
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": (
+            "whitenoise.storage."
+            "CompressedManifestStaticFilesStorage"
+        ),
     },
 }
+
+
+print("====================================================")
+print("              STORAGE DEBUG")
+print("====================================================")
+
+print(
+    "DEFAULT STORAGE:",
+    STORAGES["default"]["BACKEND"]
+)
+
+print(
+    "STATIC STORAGE:",
+    STORAGES["staticfiles"]["BACKEND"]
+)
+
+print("====================================================")
 
 
 # ============================================================
@@ -266,3 +388,12 @@ if not DEBUG:
         "HTTP_X_FORWARDED_PROTO",
         "https",
     )
+
+
+# ============================================================
+# FINAL SETTINGS MESSAGE
+# ============================================================
+
+print("====================================================")
+print("       MIRACLE FLOWERS SETTINGS LOADED")
+print("====================================================")
